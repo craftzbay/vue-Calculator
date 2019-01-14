@@ -2,24 +2,24 @@
   <div class="calculator">
     <div class="display">{{current || 0}}</div>
     <div @click="clear" class="btn">C</div>
-    <div class="btn">+/-</div>
-    <div class="btn">%</div>
-    <div class="btn operator">+</div>
-    <div class="btn">7</div>
-    <div class="btn">8</div>
-    <div class="btn">9</div>
-    <div class="btn operator">x</div>
-    <div class="btn">4</div>
-    <div class="btn">5</div>
-    <div class="btn">6</div>
-    <div class="btn operator">-</div>
-    <div class="btn">1</div>
-    <div class="btn">2</div>
-    <div class="btn">3</div>
-    <div class="btn operator">+</div>
-    <div class="btn zero">0</div>
-    <div class="btn">.</div>
-    <div class="btn operator">=</div>
+    <div @click="nemehhasah" class="btn">+/-</div>
+    <div @click="huwi" class="btn">%</div>
+    <div @click="huwaah" class="btn operator">÷</div>
+    <div @click="too('7')" class="btn">7</div>
+    <div @click="too('8')" class="btn">8</div>
+    <div @click="too('9')" class="btn">9</div>
+    <div @click="urjih" class="btn operator">×</div>
+    <div @click="too('4')" class="btn">4</div>
+    <div @click="too('5')" class="btn">5</div>
+    <div @click="too('6')" class="btn">6</div>
+    <div @click="hasah" class="btn operator">-</div>
+    <div @click="too('1')" class="btn">1</div>
+    <div @click="too('2')" class="btn">2</div>
+    <div @click="too('3')" class="btn">3</div>
+    <div @click="nemeh" class="btn operator">+</div>
+    <div @click="too('0')" class="btn zero">0</div>
+    <div @click="tseg" class="btn">.</div>
+    <div @click="tentsuu" class="btn operator">=</div>
   </div>
 </template>
 
@@ -27,7 +27,59 @@
 export default {
   data(){
     return{
-      current: ''
+      omnoh: null,
+      current: '',
+      operator: null,
+      operatorClicked: false
+    }
+  },
+  methods:{
+    clear(){
+      this.current = ''
+    },
+    nemehhasah(){
+      this.current = this.current.charAt(0) === '-' ? this.current.slice(1) : `-${this.current}`;
+
+    },
+    huwi(){
+      this.current = `${parseFloat(this.current)/100 }`;
+    },
+    tseg(){
+      if(this.current.indexOf('.') === -1 ){     this.too('.');     }
+    },
+    too(number){
+      if(this.operatorClicked){
+        this.current = '';
+        this.operatorClicked = false;
+      }
+      this.current = `${this.current}${number}`;    
+    },
+    setOmnoh(){
+      this.omnoh = this.current;
+      this.operatorClicked = true;
+    },
+    huwaah(){
+      this.operator = (a,b) => a/b;
+      this.setOmnoh();
+    },
+    urjih(){
+      this.operator = (a,b) => a*b;
+      this.setOmnoh();
+    },
+    nemeh(){
+      this.operator = (a,b) => a+b;
+      this.setOmnoh();
+    },
+    hasah(){
+      this.operator = (a,b) => a-b;
+      this.setOmnoh();
+    },
+    tentsuu(){
+      this.current = `${this.operator(
+        parseFloat(this.current),
+        parseFloat(this.omnoh)
+      )}`;
+      this.omnoh = null;
     }
   }
 }
