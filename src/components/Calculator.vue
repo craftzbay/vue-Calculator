@@ -59,7 +59,7 @@ export default {
       this.operatorClicked = true;
     },
     huwaah(){
-      this.operator = (a,b) => a/b;
+      this.operator = (a,b) => b/a;
       this.setOmnoh();
     },
     urjih(){
